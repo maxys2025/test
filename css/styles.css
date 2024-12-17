@@ -117,7 +117,6 @@ img {
 
 /* Style the links inside the navigation bar */
 .navbar a {
-  float: left;
   display: block;
   color: #f2f2f2;
   text-align: center;
@@ -138,6 +137,21 @@ img {
   color: white;
 }
 
+/* Stile per schermi piccoli */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap; /* Permette ai link di andare su nuove righe se necessario */
+    padding: 10px; /* Più spazio intorno per migliorare leggibilità */
+  }
+
+  .navbar a {
+    flex-basis: 100%; /* Ogni link occupa l'intera larghezza su mobile */
+    text-align: center; /* Centra il testo dei link */
+    padding: 10px; /* Spazio maggiore per clic più comodi */
+    font-size: 16px; /* Leggermente più piccolo per evitare affollamento */
+  }
+}
+
 /*contenitore delle domande */
 #question-container {
   text-align: center;
@@ -148,7 +162,6 @@ img {
   padding: 30px;
   border-radius: 20px;
   font-family: Raleway, serif;
-  max-width: 40%;
   opacity: 0.9;
 }
 
