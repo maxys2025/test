@@ -105,7 +105,7 @@ img {
   background-color: #000;
   overflow: hidden;
   position: fixed;
-  bottom: 0;
+  top: 0;
   width: 100%;
   font-family: Raleway, serif;
   opacity: 0.9;
