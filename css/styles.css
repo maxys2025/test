@@ -105,78 +105,52 @@ img {
   background-color: #000;
   overflow: hidden;
   position: fixed;
-  top: 0;
+  bottom: 0;
   width: 100%;
   font-family: Raleway, serif;
   opacity: 0.9;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px 10px;
-  box-sizing: border-box;
+  display: flex; /* Usa Flexbox per il layout */
+  justify-content: center; /* Centra i link orizzontalmente */
+  align-items: center; /* Centra i link verticalmente */
+  padding: 5px 0; /* Spazio verticale per la navbar */
 }
 
-/* Hamburger icon */
-.hamburger {
-  background: none;
-  border: none;
+/* Style the links inside the navigation bar */
+.navbar a {
+  float: left;
+  display: block;
   color: #f2f2f2;
-  font-size: 24px;
-  cursor: pointer;
-  display: none; /* Nascondi sui desktop */
-}
-
-/* Links container */
-.nav-links {
-  display: flex; /* Mostra i link affiancati sui desktop */
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Links */
-.nav-links a {
-  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
   text-decoration: none;
-  padding: 10px 15px;
   font-size: 17px;
 }
 
-.nav-links a:hover {
+/* Change the color of links on hover */
+.navbar a:hover {
   background-color: #ddd;
   color: black;
 }
 
-/* Media query per dispositivi mobili */
-@media (max-width: 768px) {
-  .hamburger {
-    display: block; /* Mostra l'icona hamburger */
-  }
-
-  .nav-links {
-    display: none; /* Nascondi il menu inizialmente */
-    flex-direction: column; /* Link impilati in verticale quando visibili */
-    position: fixed; /* Menu sovrapposto */
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #000;
-    z-index: 1000;
-    padding: 10px 0;
-  }
-
-  .nav-links a {
-    text-align: center;
-    padding: 15px;
-    font-size: 16px;
-    border-bottom: 1px solid #333;
-  }
-
-  .nav-links.show {
-    display: flex; /* Mostra il menu quando attivato */
-  }
+/* Add a color to the active/current link */
+.navbar a.active {
+  background-color: #04AA6D;
+  color: white;
 }
 
+/* Stile per schermi piccoli */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap; /* Permette ai link di andare su nuove righe se necessario */
+    padding: 10px; /* Più spazio intorno per migliorare leggibilità */
+  }
+  .navbar a {
+    flex-basis: 100%; /* Ogni link occupa l'intera larghezza su mobile */
+    text-align: center; /* Centra il testo dei link */
+    padding: 10px; /* Spazio maggiore per clic più comodi */
+    font-size: 16px; /* Leggermente più piccolo per evitare affollamento */
+  }
+}
 /*contenitore delle domande */
 #question-container {
   text-align: center;
@@ -187,6 +161,7 @@ img {
   padding: 30px;
   border-radius: 20px;
   font-family: Raleway, serif;
+  max-width: 40%;
   opacity: 0.9;
 }
 
