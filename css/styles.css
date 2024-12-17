@@ -148,6 +148,7 @@ img {
   padding: 30px;
   border-radius: 20px;
   font-family: Raleway, serif;
+  max-width: 40%;
 }
 
 .question-box {
