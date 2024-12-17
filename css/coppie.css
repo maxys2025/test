@@ -102,17 +102,15 @@ button:active {
   padding: 10px;
   font-size: 1rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   color: white;
-  background-color: #2196F3;
-  box-shadow: 0 5px 10px rgba(33, 150, 243, 0.2);
+  background-color: #990000;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
 }
 
 #name-input button:hover {
-  background-color: #1E88E5;
-  transform: translateY(-2px);
+  background-color: #990000;
+  border-radius: 15px;
 }
 
 #name-input button:active {
