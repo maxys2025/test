@@ -101,7 +101,6 @@ img {
 	}
 }
 /* Place the navbar at the bottom of the page, and make it stick */
-/* Stile generale */
 .navbar {
   background-color: #000;
   overflow: hidden;
@@ -110,75 +109,33 @@ img {
   width: 100%;
   font-family: Raleway, serif;
   opacity: 0.9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px 10px;
-  box-sizing: border-box;
+  display: flex; /* Usa Flexbox per il layout */
+  justify-content: center; /* Centra i link orizzontalmente */
+  align-items: center; /* Centra i link verticalmente */
+  padding: 5px 0; /* Spazio verticale per la navbar */
 }
 
-/* Hamburger icon */
-.hamburger {
-  background: none;
-  border: none;
+/* Style the links inside the navigation bar */
+.navbar a {
+  float: left;
+  display: block;
   color: #f2f2f2;
-  font-size: 24px;
-  cursor: pointer;
-  display: none; /* Nascosto sui desktop */
-}
-
-/* Links container */
-.nav-links {
-  display: flex; /* Mostra i link affiancati sui desktop */
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.3s ease-in-out;
-}
-
-/* Links */
-.nav-links a {
-  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
   text-decoration: none;
-  padding: 10px 15px;
   font-size: 17px;
 }
 
-.nav-links a:hover {
+/* Change the color of links on hover */
+.navbar a:hover {
   background-color: #ddd;
   color: black;
 }
 
-/* Media query per dispositivi mobili */
-@media (max-width: 768px) {
-  .hamburger {
-    display: block; /* Mostra l'icona hamburger */
-  }
-
-  .nav-links {
-    display: none; /* Nascondi i link inizialmente */
-    flex-direction: column; /* Link impilati in verticale quando visibili */
-    position: fixed; /* Menu sovrapposto */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #000;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-
-  .nav-links a {
-    padding: 15px;
-    font-size: 18px;
-    text-align: center;
-    border-bottom: 1px solid #333;
-  }
-
-  .nav-links.show {
-    display: flex; /* Mostra i link quando il menu è attivato */
-  }
+/* Add a color to the active/current link */
+.navbar a.active {
+  background-color: #04AA6D;
+  color: white;
 }
 
 /*contenitore delle domande */
