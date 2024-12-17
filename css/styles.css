@@ -112,7 +112,7 @@ img {
   display: flex; /* Usa Flexbox per il layout */
   justify-content: center; /* Centra i link orizzontalmente */
   align-items: center; /* Centra i link verticalmente */
-  padding: 5px 0; /* Spazio verticale per la navbar */
+  padding: 5px 15px; /* Spazio verticale per la navbar */
 }
 
 /* Links */
