@@ -5,7 +5,7 @@ let questions = []; // Array che conterrà le domande
 // Carica le domande dal file JSON
 async function loadQuestions() {
     try {
-        const response = await fetch('questions.json');
+        const response = await fetch('js/questions.json');
         questions = await response.json();
 
         // Mostra una domanda casuale all'inizio
