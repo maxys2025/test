@@ -109,6 +109,10 @@ img {
   width: 100%;
   font-family: Raleway, serif;
   opacity: 0.9;
+  display: flex; /* Usa Flexbox per il layout */
+  justify-content: center; /* Centra i link orizzontalmente */
+  align-items: center; /* Centra i link verticalmente */
+  padding: 5px 0; /* Spazio verticale per la navbar */
 }
 
 /* Style the links inside the navigation bar */
