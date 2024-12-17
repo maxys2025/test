@@ -34,21 +34,43 @@
 	</div>
 </div>
 <div class="container">
-    <div id="question-container">
-<h1>Questions Game</h1>
-<h2>Regole: cliccate su "domanda a caso" oppure su una delle categorie e rispondete alla domanda che il gioco vi pone. Buon divertimento! </h2>
-        <div id="question-box" class="question-box">
-            <!-- Qui apparirà la domanda e la categoria -->
-            </div>
-        
-        <div id="buttons">
-            <button id="random-question-btn">Domanda a Caso</button>
-            <button id="category-past">Passato e Ricordi</button>
-            <button id="category-dreams">Sogni e Obiettivi</button>
-            <button id="category-values">Valori e Credenze</button>
-            <button id="category-lifestyle">Stili di Vita e Preferenze</button>
-            <button id="category-intimacy">Sesso e Intimità</button>
-        </div>
+    <!-- Form per inserire i nomi dei giocatori -->
+  <div id="name-input">
+  <div class="input-container">
+    <input type="text" id="name-him" placeholder="Nome 1">
+    <input type="text" id="name-her" placeholder="Nome 2">
+  </div>
+  <button onclick="startGame()">Inizia il gioco</button>
+  </div>
+    
+    <!-- Box per le domande (nascosto inizialmente) -->
+    <div id="game-content" style="display: none;">
+      <div id="question-box">
+        <p id="category">Categoria:</p>
+        <p id="question">La domanda apparirà qui.</p>
+      </div>
+
+  <!-- Sezione per i punteggi affiancati -->
+  <div id="score-container">
+  <!-- Sezione per il punteggio di Lui -->
+  <div class="score-section">
+    <h3><span id="label-him">Lui</span>: <span id="score-him" class="score-display">0</span></h3>
+    <button class="score-btn" onclick="updateScore('him', 1)">+1</button>
+    <button class="score-btn" onclick="updateScore('him', -1)">-1</button>
+  </div>
+
+  <!-- Sezione per il punteggio di Lei -->
+  <div class="score-section">
+    <h3><span id="label-her">Lei</span>: <span id="score-her" class="score-display">0</span></h3>
+    <button class="score-btn" onclick="updateScore('her', 1)">+1</button>
+    <button class="score-btn" onclick="updateScore('her', -1)">-1</button>
+  </div>
+</div>
+
+      <!-- Pulsante per passare alla prossima domanda -->
+      <button onclick="nextQuestion()">Prossima Domanda</button>
+
+    </div>
     </div>
 <div class="navbar">
   <div class="nav-links">
