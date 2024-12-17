@@ -111,7 +111,7 @@ img {
   font-family: Raleway, serif;
   opacity: 0.9;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 5px 10px;
   box-sizing: border-box;
