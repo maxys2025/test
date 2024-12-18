@@ -83,7 +83,7 @@
 /* Media query per dispositivi più piccoli */
 @media (max-width: 1024px) {
   .grid {
-    grid-template-columns: repeat(4, 1fr); /* Passa a 4 colonne */
+    grid-template-columns: repeat(6, 1fr); /* Passa a 4 colonne */
   }
 
   .card {
@@ -99,7 +99,7 @@
 
 @media (max-width: 768px) {
   .grid {
-    grid-template-columns: repeat(3, 1fr); /* Passa a 3 colonne */
+    grid-template-columns: repeat(6, 1fr); /* Passa a 3 colonne */
   }
 
   .card {
@@ -115,7 +115,7 @@
 
 @media (max-width: 480px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr); /* Passa a 2 colonne */
+    grid-template-columns: repeat(5, 1fr); /* Passa a 2 colonne */
   }
 
   .card {
