@@ -1,7 +1,7 @@
 /* Griglia di carte */
 .grid {
   display: grid;
-  grid-template-columns: repeat(12, 1fr); /* Colonne dinamiche che si adattano */
+  grid-template-columns: repeat(5, 1fr); /* Imposta 4 colonne */
   grid-gap: 10px; /* Spaziatura tra tessere */
   width: 100%; /* Fa sì che occupi tutta la larghezza */
   max-width: 100%; /* Limita la larghezza al 100% della pagina */
@@ -70,11 +70,12 @@
 }
 
 .game-container {
-  width: 98vw; /* Imposta la larghezza al 100% della finestra */
+  width: 100%; /* Adatta alla larghezza della pagina */
   padding: 10px;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  overflow-y: auto; /* Scorrimento verticale se necessario */
+  overflow-y: auto; /* Scorrimento verticale */
+  max-height: 80vh; /* Limita l'altezza al 80% dello schermo */
 }
