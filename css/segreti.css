@@ -79,3 +79,52 @@
   overflow-y: auto; /* Scorrimento verticale */
   max-height: 80vh; /* Limita l'altezza al 80% dello schermo */
 }
+
+/* Media query per dispositivi più piccoli */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr); /* Passa a 4 colonne */
+  }
+
+  .card {
+    width: 90px; /* Riduci la dimensione delle carte */
+    height: 70px;
+  }
+
+  .front,
+  .back {
+    font-size: 10px; /* Riduci il testo */
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr); /* Passa a 3 colonne */
+  }
+
+  .card {
+    width: 80px; /* Ancora più piccolo */
+    height: 60px;
+  }
+
+  .front,
+  .back {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr); /* Passa a 2 colonne */
+  }
+
+  .card {
+    width: 70px;
+    height: 50px;
+  }
+
+  .front,
+  .back {
+    font-size: 8px;
+  }
+}
