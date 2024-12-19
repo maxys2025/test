@@ -7,7 +7,7 @@ const questionsPerCategory = 5; // Numero di domande per categoria
 // Carica le domande da un file JSON
 async function loadQuestions() {
   try {
-    const response = await fetch('questions.json');
+    const response = await fetch('js/questions.json');
     const data = await response.json();
     questions = data.questions;
     prepareQuestions();
