@@ -1,30 +1,49 @@
 let questions = [];
+let selectedQuestions = [];
 let currentQuestionIndex = 0;
 let scores = { him: 0, her: 0 };
-const goalScore = 10; // Punteggio per vincere
+const questionsPerCategory = 5; // Numero di domande per categoria
 
 // Carica le domande da un file JSON
 async function loadQuestions() {
   try {
-    const response = await fetch('js/questions.json');
+    const response = await fetch('questions.json');
     const data = await response.json();
     questions = data.questions;
-    shuffleQuestions();
+    prepareQuestions();
   } catch (error) {
     console.error("Errore nel caricamento delle domande:", error);
   }
 }
 
+// Prepara un set di domande casuali per ogni categoria
+function prepareQuestions() {
+  const categories = {}; // Oggetto per raggruppare le domande per categoria
+
+  // Raggruppa le domande per categoria
+  questions.forEach(question => {
+    if (!categories[question.category]) {
+      categories[question.category] = [];
+    }
+    categories[question.category].push(question);
+  });
+
+  // Estrai domande casuali da ogni categoria
+  for (const category in categories) {
+    const shuffled = [...categories[category]].sort(() => Math.random() - 0.5); // Mescola
+    selectedQuestions.push(...shuffled.slice(0, questionsPerCategory)); // Aggiungi le prime N domande
+  }
+
+  shuffleQuestions(); // Mescola tutte le domande selezionate
+}
+
 // Mescola le domande
 function shuffleQuestions() {
-  for (let i = questions.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [questions[i], questions[j]] = [questions[j], questions[i]];
-  }
+  selectedQuestions = selectedQuestions.sort(() => Math.random() - 0.5);
 }
 
 // Avvia il gioco
-function startGame() {
+async function startGame() {
   const nameHim = document.getElementById('name-him').value || "Lui";
   const nameHer = document.getElementById('name-her').value || "Lei";
 
@@ -34,42 +53,54 @@ function startGame() {
   document.getElementById('name-input').style.display = "none";
   document.getElementById('game-content').style.display = "block";
 
-  // Carica e mostra la prima domanda
-  loadQuestions().then(() => nextQuestion());
+  await loadQuestions(); // Carica le domande e prepara il set
+  nextQuestion(); // Mostra la prima domanda
+}
+
+// Mostra la prossima domanda
+function nextQuestion() {
+  if (currentQuestionIndex < selectedQuestions.length) {
+    const questionData = selectedQuestions[currentQuestionIndex];
+    document.getElementById('category').innerText = `Categoria: ${questionData.category}`;
+    document.getElementById('question').innerText = questionData.question;
+    currentQuestionIndex++;
+  } else {
+    endGame(); // Termina il gioco e calcola il vincitore
+  }
 }
 
 // Aggiorna il punteggio e la barra di progresso
 function updateScore(player) {
   scores[player]++;
   const progressBar = document.getElementById(`progress-${player}`);
-  const progress = (scores[player] / goalScore) * 100;
+  const progress = (currentQuestionIndex / selectedQuestions.length) * 100;
   progressBar.style.width = `${progress}%`;
 
-  if (scores[player] >= goalScore) {
-    declareWinner(player);
-  }
+  // Mostra la prossima domanda o termina il gioco
+  nextQuestion();
 }
 
 // Dichiara il vincitore
-function declareWinner(player) {
+function endGame() {
+  const himScore = scores.him;
+  const herScore = scores.her;
+
+  let winnerMessage;
+  if (himScore > herScore) {
+    winnerMessage = `${document.getElementById('label-him').innerText} vince con ${himScore} risposte corrette!`;
+  } else if (herScore > himScore) {
+    winnerMessage = `${document.getElementById('label-her').innerText} vince con ${herScore} risposte corrette!`;
+  } else {
+    winnerMessage = "È un pareggio! Entrambi avete dato lo stesso numero di risposte corrette.";
+  }
+
+  // Mostra il messaggio di vittoria e disabilita i pulsanti
   document.getElementById('question-container').innerHTML = 
-    `<h2 class="winner-message">${document.getElementById(`label-${player}`).innerText} vince!</h2>`;
+    `<h2 class="winner-message">${winnerMessage}</h2>`;
   disableButtons();
 }
 
 // Disabilita i pulsanti dopo il termine del gioco
 function disableButtons() {
   document.querySelectorAll('button').forEach(button => button.disabled = true);
-}
-
-// Mostra la prossima domanda
-function nextQuestion() {
-  if (currentQuestionIndex < questions.length) {
-    const questionData = questions[currentQuestionIndex];
-    document.getElementById('category').innerText = `Categoria: ${questionData.category}`;
-    document.getElementById('question').innerText = questionData.question;
-    currentQuestionIndex++;
-  } else {
-    document.getElementById('question-container').innerHTML = "<h2>Gioco completato!</h2>";
-  }
 }
