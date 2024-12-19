@@ -1,4 +1,5 @@
-[
+{
+  "questions": [
     { "question": "Qual è stato uno dei momenti più felici della tua infanzia?", "category": "Passato e Ricordi " },
     { "question": "C'è un insegnante che ha avuto un impatto particolare su di te?", "category": "Passato e Ricordi " },
     { "question": "Hai mai avuto un sogno ricorrente? Di cosa si trattava?", "category": "Passato e Ricordi " },
@@ -71,3 +72,4 @@
     { "question": "C’è una cosa che vorresti provare ma che non hai ancora avuto il coraggio di fare?", "category": "Sesso e Intimità " },
     { "question": "Cosa rappresenta per te la sessualità in una relazione?", "category": "Sesso e Intimità " }    
 ]
+}
