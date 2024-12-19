@@ -50,7 +50,7 @@ async function startGame() {
   document.getElementById('label-him').innerText = nameHim;
   document.getElementById('label-her').innerText = nameHer;
 
-  document.getElementById('name-input').style.display = "none";
+  document.getElementById('name-input').style.display = "none"; 
   document.getElementById('game-content').style.display = "block";
 
   await loadQuestions(); // Carica le domande e prepara il set
