@@ -54,6 +54,7 @@ async function startGame() {
   document.getElementById('game-content').style.display = "block";
 
   await loadQuestions(); // Carica le domande e prepara il set
+  updateQuestionCounter(); // Aggiorna il contatore
   nextQuestion(); // Mostra la prima domanda
 }
 
@@ -64,9 +65,16 @@ function nextQuestion() {
     document.getElementById('category').innerText = `Categoria: ${questionData.category}`;
     document.getElementById('question').innerText = questionData.question;
     currentQuestionIndex++;
+    updateQuestionCounter(); // Aggiorna il contatore
   } else {
     endGame(); // Termina il gioco e calcola il vincitore
   }
+}
+
+// Aggiorna il contatore delle domande
+function updateQuestionCounter() {
+  const counterElement = document.getElementById('question-counter');
+  counterElement.innerText = `${currentQuestionIndex}/${selectedQuestions.length}`;
 }
 
 // Aggiorna il punteggio e la barra di progresso
