@@ -1,0 +1,54 @@
+{
+  "domande": {
+    "Preferenze": [
+      { "question": "Qual è il tuo colore preferito?", "category": "Preferenze" },
+      { "question": "Ti piacciono di più le giornate di sole o quelle piovose?", "category": "Preferenze" }
+    ],
+    "Esperienze": [
+      { "question": "Hai mai viaggiato all’estero? Dove?", "category": "Esperienze" },
+      { "question": "Hai mai fatto volontariato?", "category": "Esperienze" }
+    ],
+    "Curiosità": [
+      { "question": "Se potessi vivere in qualsiasi epoca storica, quale sarebbe?", "category": "Curiosità" },
+      { "question": "Hai mai avuto un deja vu?", "category": "Curiosità" }
+    ],
+    "Sessualità": [
+      { "question": "A che età hai dato il primo bacio?", "category": "Sessualità" },
+            { "question": "Ti piace ascoltare musica mentre fai sesso?", "category": "Sessualità" }
+    ],
+    "Amore": [
+      { "question": "Che cos'è per te l’amore?", "category": "Amore" },
+      { "question": "Qual è la cosa più folle che hai fatto per amore?", "category": "Amore" }
+    ]
+  },
+  "coppie": {
+    "Preferenze": [
+      { "question": "Qual è la sua stagione preferita?", "category": "Preferenze" },
+      { "question": "Preferisce il caldo o il freddo?", "category": "Preferenze" }
+    ],
+    "Esperienze": [
+      { "question": "Qual è stato il suo primo lavoro?", "category": "Esperienze" },
+      { "question": "Ha mai cambiato idea all'ultimo momento?", "category": "Esperienze" }
+    ],
+    "Curiosità": [
+      { "question": "Quando è il suo compleanno?", "category": "Curiosità" },
+      { "question": "Come si chiamano i suoi genitori?", "category": "Curiosità" }
+    ],
+    "Sessualità": [
+      { "question": "A che età ha dato il primo bacio?", "category": "Sessualità" },
+      { "question": "Ha mai letto racconti erotici?", "category": "Sessualità" }
+    ]
+  },
+  "segreti": {
+    "Piccanti": [
+      { "question": "A che età hai dato il primo bacio?", "category": "Piccanti" },
+      { "question": "Ti piace tirare o essere tirata per i capelli?", "category": "Piccanti" }
+    ]
+  },
+  "spaccacoppie": {
+    "Provocazioni": [
+      { "question": "Mi hai mai tradito?", "category": "Provocazioni" },
+      { "question": "C’è qualcosa che hai sempre voluto fare a letto, ma che non osi chiedermi?", "category": "Provocazioni" }
+    ]
+  }
+}
