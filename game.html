@@ -1,18 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gioco Online</title>
+  <title>Gioco Online - Domande</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Gioco Online</h1>
-  <div id="game-status">
-    In attesa di giocatori...
+  <h1>Benvenuti al Gioco di Domande!</h1>
+
+  <div id="players-status">
+    <p id="player1-status">In attesa del secondo giocatore...</p>
+    <p id="player2-status">In attesa...</p>
   </div>
+
+  <div id="game">
+    <div id="question">
+      <p>Domanda: <span id="question-text"></span></p>
+    </div>
+
+    <div id="chat">
+      <h2>Chat</h2>
+      <div id="chat-box"></div>
+      <input type="text" id="answer-input" placeholder="Scrivi la tua risposta..." />
+      <button id="send-answer">Invia Risposta</button>
+    </div>
+
+    <button id="next-button" style="display:none;">Prosegui alla prossima domanda</button>
+  </div>
+
   <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"></script>
-  <script src="game.js"></script>
+  <script type="module" src="game.js"></script>
 </body>
 </html>
