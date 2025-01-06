@@ -1,3 +1,7 @@
+// Importa le funzioni necessarie da Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+
 // Configurazione Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDjDMlNNyZcg-iUx6ENAi8Gs1Pfo0sgdYo",
@@ -9,45 +13,48 @@ const firebaseConfig = {
 };
 
 // Inizializza Firebase
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
 // Inizializza Firestore
-const db = firebase.firestore();
+const db = getFirestore(app);
 
 // Aggiungi un documento di test
-db.collection('test').add({
-  name: 'Giocatore1',
-  score: 0,
-  joinedAt: firebase.firestore.FieldValue.serverTimestamp()
-})
-.then(() => {
-  console.log('Documento aggiunto con successo!');
-})
-.catch((error) => {
-  console.error('Errore durante l\'aggiunta del documento:', error);
-});
+async function addTestDocument() {
+  try {
+    await addDoc(collection(db, 'test'), {
+      name: 'Giocatore1',
+      score: 0,
+      joinedAt: serverTimestamp()
+    });
+    console.log('Documento aggiunto con successo!');
+  } catch (error) {
+    console.error('Errore durante l\'aggiunta del documento:', error);
+  }
+}
 
 // Salva il nome del giocatore
-document.getElementById('login-form').addEventListener('submit', function (event) {
+document.getElementById('login-form').addEventListener('submit', async function (event) {
   event.preventDefault(); // Previene il comportamento predefinito del form
 
   const playerName = document.getElementById('player-name').value.trim();
 
   if (playerName) {
-    // Aggiungi il nome al database
-    db.collection('players').add({
-      name: playerName,
-      joinedAt: firebase.firestore.FieldValue.serverTimestamp()
-    })
-      .then(() => {
-        alert(`Benvenuto, ${playerName}! Aspettiamo un altro giocatore...`);
-        window.location.href = 'game.html'; // Reindirizza al gioco
-      })
-      .catch((error) => {
-        console.error('Errore durante il salvataggio del nome:', error);
-        alert('C\'è stato un problema. Riprova!');
+    try {
+      // Aggiungi il nome al database
+      await addDoc(collection(db, 'players'), {
+        name: playerName,
+        joinedAt: serverTimestamp()
       });
+      alert(`Benvenuto, ${playerName}! Aspettiamo un altro giocatore...`);
+      window.location.href = 'game.html'; // Reindirizza al gioco
+    } catch (error) {
+      console.error('Errore durante il salvataggio del nome:', error);
+      alert('C\'è stato un problema. Riprova!');
+    }
   } else {
     alert('Per favore, inserisci un nome!');
   }
 });
+
+// Esegui il test per aggiungere un documento di esempio
+addTestDocument();
