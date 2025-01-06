@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 // Configurazione Firebase
 const firebaseConfig = {
@@ -17,6 +17,10 @@ const db = getFirestore(app);
 
 let player1Name = "";
 let player2Name = "";
+let questions = [];
+let currentQuestionIndex = 0;
+let player1Answered = false;
+let player2Answered = false;
 
 // Funzione per ottenere i giocatori
 async function getPlayers() {
@@ -34,7 +38,15 @@ async function getPlayers() {
   }
 }
 
-// Mostra la domanda
+// Funzione per caricare il file JSON delle domande
+async function loadQuestions() {
+  const response = await fetch('questions.json');  // Assicurati che il file sia nella stessa directory
+  const data = await response.json();
+  questions = data.questions;
+  showNextQuestion();
+}
+
+// Funzione per mostrare una domanda
 function showQuestion(question) {
   document.getElementById("question-text").textContent = question;
 }
@@ -43,7 +55,7 @@ function showQuestion(question) {
 document.getElementById("send-answer").addEventListener("click", async () => {
   const answer = document.getElementById("answer-input").value.trim();
   if (answer) {
-    const playerName = player1Name; // Qui puoi aggiungere logica per capire quale giocatore ha risposto
+    const playerName = player1Answered ? player2Name : player1Name; // Determina chi ha risposto
     const chatBox = document.getElementById("chat-box");
 
     // Aggiungi la risposta alla chat
@@ -58,13 +70,31 @@ document.getElementById("send-answer").addEventListener("click", async () => {
       });
     });
 
-    // Abilita il pulsante per la prossima domanda
-    document.getElementById("next-button").style.display = "inline-block";
+    // Verifica se entrambi i giocatori hanno risposto
+    if (player1Answered && player2Answered) {
+      document.getElementById("next-button").style.display = "inline-block"; // Mostra il tasto "Next"
+    }
   } else {
     alert("Per favore, scrivi una risposta!");
   }
 });
 
-// Carica i dati dei giocatori e una domanda
+// Passa alla prossima domanda
+document.getElementById("next-button").addEventListener("click", showNextQuestion);
+
+// Funzione per passare alla domanda successiva
+function showNextQuestion() {
+  if (currentQuestionIndex < questions.length) {
+    showQuestion(questions[currentQuestionIndex]);
+    currentQuestionIndex++;
+    document.getElementById("next-button").style.display = "none"; // Nascondi il pulsante finché non è pronto
+    player1Answered = false;
+    player2Answered = false;
+  } else {
+    alert("Hai finito le domande!");
+  }
+}
+
+// Carica i dati dei giocatori e le domande
 getPlayers();
-showQuestion("Qual è il tuo colore preferito?");
+loadQuestions();
