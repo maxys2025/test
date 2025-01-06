@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js';
-import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js';
+import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, serverTimestamp, arrayUnion } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js';
 
 // Configurazione Firebase
 const firebaseConfig = {
@@ -69,42 +69,48 @@ function showNextQuestion() {
 
 // Funzione per ottenere i giocatori dalla stanza
 async function getPlayers() {
+  console.log("Recuperando i giocatori dalla stanza...");
   const roomRef = doc(db, 'rooms', currentRoomId);
   const roomSnapshot = await getDocs(collection(roomRef, 'players'));
 
   const players = roomSnapshot.docs.map(doc => doc.data());
+  console.log("Giocatori nella stanza:", players);
+
   if (players.length === 2) {
     player1Name = players[0].name;
     player2Name = players[1].name;
 
     document.getElementById("player1-status").textContent = `Giocatore 1: ${player1Name}`;
     document.getElementById("player2-status").textContent = `Giocatore 2: ${player2Name}`;
+    loadQuestions();  // Inizia il gioco
   } else {
     document.getElementById("player2-status").textContent = "In attesa di un altro giocatore...";
   }
 }
 
-// Funzione per creare o unirsi a una stanza
-async function createOrJoinRoom(playerName) {
-  // Controlliamo se esiste una stanza con un solo giocatore
+// Funzione per creare o unirsi a una stanza con password
+async function createOrJoinRoom(playerName, password) {
   const roomsSnapshot = await getDocs(collection(db, 'rooms'));
   let roomRef;
   let roomId;
 
-  // Se c'è una stanza con un solo giocatore, uniamoci a quella
-  const availableRoom = roomsSnapshot.docs.find(doc => doc.data().players.length === 1);
+  // Trova la stanza con la stessa password
+  const availableRoom = roomsSnapshot.docs.find(doc => doc.data().password === password && doc.data().players.length === 1);
   
   if (availableRoom) {
     roomId = availableRoom.id;
     roomRef = doc(db, 'rooms', roomId);
+    console.log(`Unendosi alla stanza esistente: ${roomId}`);
   } else {
-    // Altrimenti creiamo una nuova stanza
+    // Crea una nuova stanza con la password
     const newRoomRef = await addDoc(collection(db, 'rooms'), {
       players: [],
+      password: password,
       createdAt: serverTimestamp()
     });
     roomId = newRoomRef.id;
     roomRef = newRoomRef;
+    console.log(`Creata nuova stanza: ${roomId}`);
   }
 
   // Aggiungiamo il giocatore alla stanza
@@ -113,39 +119,21 @@ async function createOrJoinRoom(playerName) {
   });
 
   currentRoomId = roomId;
+  console.log(`Stanza corrente: ${currentRoomId}`);
+  
   getPlayers();  // Recupera e mostra i giocatori
-  loadQuestions();  // Carica le domande
 }
 
-// Gestione delle risposte
-document.getElementById("send-answer").addEventListener("click", async () => {
-  const answer = document.getElementById("answer-input").value.trim();
-  if (answer) {
-    const playerName = player1Answered ? player2Name : player1Name;
+// Gestione dell'evento per il login
+document.getElementById("join-room").addEventListener("click", async () => {
+  const playerName = document.getElementById("player-name").value.trim();
+  const roomPassword = document.getElementById("room-password").value.trim();
 
-    // Aggiungi la risposta alla chat
-    const chatBox = document.getElementById("chat-box");
-    chatBox.innerHTML += `<p><strong>${playerName}</strong>: ${answer}</p>`;
-    document.getElementById("answer-input").value = ""; // Reset dell'input
-
-    // Salva la risposta nel database
-    const roomRef = doc(db, 'rooms', currentRoomId);
-    await updateDoc(roomRef, {
-      answers: arrayUnion(answer)
-    });
-
-    // Verifica se entrambi i giocatori hanno risposto
-    if (player1Answered && player2Answered) {
-      document.getElementById("next-button").style.display = "inline-block"; // Mostra il tasto "Next"
-    }
+  if (playerName && roomPassword) {
+    await createOrJoinRoom(playerName, roomPassword);
+    document.getElementById("login-screen").style.display = "none";  // Nascondi la schermata di login
+    document.getElementById("game-screen").style.display = "block";  // Mostra la schermata di gioco
   } else {
-    alert("Per favore, scrivi una risposta!");
-  }
-});
-
-document.getElementById("send-answer").addEventListener("click", async () => {
-  const playerName = prompt("Inserisci il tuo nome:");
-  if (playerName) {
-    await createOrJoinRoom(playerName);
+    alert("Inserisci sia il nome che la password!");
   }
 });
