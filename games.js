@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js';
-import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, serverTimestamp, arrayUnion } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js';
+import { getFirestore, collection, getDocs, updateDoc, doc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js';
 
 // Configurazione Firebase
 const firebaseConfig = {
@@ -15,7 +15,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-let currentRoomId = null;  // Stanza attuale
+let currentRoomId = localStorage.getItem("roomId");
+let playerName = localStorage.getItem("playerName");
 let questions = [];
 let currentQuestionIndex = 0;
 
@@ -69,12 +70,10 @@ function showNextQuestion() {
 
 // Funzione per ottenere i giocatori dalla stanza
 async function getPlayers() {
-  console.log("Recuperando i giocatori dalla stanza...");
   const roomRef = doc(db, 'rooms', currentRoomId);
   const roomSnapshot = await getDocs(collection(roomRef, 'players'));
 
   const players = roomSnapshot.docs.map(doc => doc.data());
-  console.log("Giocatori nella stanza:", players);
 
   if (players.length === 2) {
     player1Name = players[0].name;
@@ -88,52 +87,5 @@ async function getPlayers() {
   }
 }
 
-// Funzione per creare o unirsi a una stanza con password
-async function createOrJoinRoom(playerName, password) {
-  const roomsSnapshot = await getDocs(collection(db, 'rooms'));
-  let roomRef;
-  let roomId;
-
-  // Trova la stanza con la stessa password
-  const availableRoom = roomsSnapshot.docs.find(doc => doc.data().password === password && doc.data().players.length === 1);
-  
-  if (availableRoom) {
-    roomId = availableRoom.id;
-    roomRef = doc(db, 'rooms', roomId);
-    console.log(`Unendosi alla stanza esistente: ${roomId}`);
-  } else {
-    // Crea una nuova stanza con la password
-    const newRoomRef = await addDoc(collection(db, 'rooms'), {
-      players: [],
-      password: password,
-      createdAt: serverTimestamp()
-    });
-    roomId = newRoomRef.id;
-    roomRef = newRoomRef;
-    console.log(`Creata nuova stanza: ${roomId}`);
-  }
-
-  // Aggiungiamo il giocatore alla stanza
-  await updateDoc(roomRef, {
-    players: arrayUnion({ name: playerName, joinedAt: serverTimestamp() })
-  });
-
-  currentRoomId = roomId;
-  console.log(`Stanza corrente: ${currentRoomId}`);
-  
-  getPlayers();  // Recupera e mostra i giocatori
-}
-
-// Gestione dell'evento per il login
-document.getElementById("join-room").addEventListener("click", async () => {
-  const playerName = document.getElementById("player-name").value.trim();
-  const roomPassword = document.getElementById("room-password").value.trim();
-
-  if (playerName && roomPassword) {
-    await createOrJoinRoom(playerName, roomPassword);
-    document.getElementById("login-screen").style.display = "none";  // Nascondi la schermata di login
-    document.getElementById("game-screen").style.display = "block";  // Mostra la schermata di gioco
-  } else {
-    alert("Inserisci sia il nome che la password!");
-  }
-});
+// Recupera e mostra i giocatori
+getPlayers();
