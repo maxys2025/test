@@ -1,6 +1,6 @@
 // Importa i moduli di Firebase
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js';
-import { getFirestore, collection, addDoc, updateDoc, arrayUnion, getDocs, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js';
+import { getFirestore, collection, addDoc, updateDoc, arrayUnion, getDocs, serverTimestamp, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js';
 
 // Configurazione Firebase
 const firebaseConfig = {
@@ -25,6 +25,7 @@ let player2Answered = false;
 
 let player1Name = "";
 let player2Name = "";
+let gameRoomId = "";  // ID della stanza di gioco
 
 // Funzione per caricare il file JSON delle domande
 async function loadQuestions() {
@@ -77,6 +78,39 @@ function showNextQuestion() {
   }
 }
 
+// Funzione per caricare i dati dei giocatori e creare una stanza
+async function createGameRoom() {
+  const playersSnapshot = await getDocs(collection(db, "players"));
+  const players = playersSnapshot.docs.map(doc => doc.data());
+
+  if (players.length === 2) {
+    player1Name = players[0].name;
+    player2Name = players[1].name;
+
+    document.getElementById("player1-status").textContent = `Giocatore 1: ${player1Name}`;
+    document.getElementById("player2-status").textContent = `Giocatore 2: ${player2Name}`;
+
+    // Crea una stanza nel database
+    const roomRef = await addDoc(collection(db, "gameRooms"), {
+      player1: player1Name,
+      player2: player2Name,
+      questionIndex: 0,
+      answers: []
+    });
+    
+    gameRoomId = roomRef.id;
+
+    // Ascolta i cambiamenti in tempo reale nella stanza
+    onSnapshot(doc(db, "gameRooms", gameRoomId), (doc) => {
+      const gameData = doc.data();
+      currentQuestionIndex = gameData.questionIndex;
+      showQuestion(questions[currentQuestionIndex]);
+    });
+  } else {
+    document.getElementById("player2-status").textContent = "In attesa di un altro giocatore...";
+  }
+}
+
 // Gestione delle risposte
 document.getElementById("send-answer").addEventListener("click", async () => {
   const answer = document.getElementById("answer-input").value.trim();
@@ -89,14 +123,13 @@ document.getElementById("send-answer").addEventListener("click", async () => {
     document.getElementById("answer-input").value = ""; // Reset dell'input
 
     // Aggiungi la risposta nel database
-    const playersSnapshot = await getDocs(collection(db, "players"));
-    playersSnapshot.forEach(async (doc) => {
-      if (doc.data().name === playerName) {
-        await updateDoc(doc.ref, {
-          answers: arrayUnion(answer),
-          lastAnswered: serverTimestamp()  // Aggiunge il timestamp quando il giocatore risponde
-        });
-      }
+    await updateDoc(doc(db, "gameRooms", gameRoomId), {
+      answers: arrayUnion({
+        player: playerName,
+        answer: answer,
+        timestamp: serverTimestamp()
+      }),
+      questionIndex: currentQuestionIndex + 1
     });
 
     // Verifica se entrambi i giocatori hanno risposto
@@ -108,22 +141,6 @@ document.getElementById("send-answer").addEventListener("click", async () => {
   }
 });
 
-// Funzione per ottenere i giocatori
-async function getPlayers() {
-  const playersSnapshot = await getDocs(collection(db, "players"));
-  const players = playersSnapshot.docs.map(doc => doc.data());
-
-  if (players.length === 2) {
-    player1Name = players[0].name;
-    player2Name = players[1].name;
-
-    document.getElementById("player1-status").textContent = `Giocatore 1: ${player1Name}`;
-    document.getElementById("player2-status").textContent = `Giocatore 2: ${player2Name}`;
-  } else {
-    document.getElementById("player2-status").textContent = "In attesa di un altro giocatore...";
-  }
-}
-
 // Carica i dati dei giocatori e le domande
-getPlayers();
+createGameRoom();
 loadQuestions();
