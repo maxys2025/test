@@ -4,36 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gioco delle Domande</title>
-
-  <!-- Script per Firebase con type="module" -->
-  <script type="module" src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
-  <script type="module" src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
-  
-  <!-- Script del gioco -->
   <script type="module" src="games.js" defer></script>
-  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <h1>Benvenuti al Gioco delle Domande!</h1>
 
-  <h1>Gioco delle Domande</h1>
+  <!-- Sezione di stato dei giocatori -->
+  <div id="game-status">
+    <p id="player1-status">Giocatore 1: In attesa di un altro giocatore...</p>
+    <p id="player2-status">Giocatore 2: In attesa di un altro giocatore...</p>
+  </div>
 
-  <!-- Visualizza il nome dei giocatori -->
-  <p id="player1-status"></p>
-  <p id="player2-status"></p>
-
-  <!-- Mostra la domanda e la categoria -->
+  <!-- Sezione per la domanda e la categoria -->
   <div id="question-container">
-    <p id="question-text"></p>
-    <p id="category-text"></p>  <!-- Mostra la categoria -->
-    <input type="text" id="answer-input" placeholder="Scrivi la tua risposta...">
+    <p id="category-text">Categoria:</p>
+    <p id="question-text">Caricamento domanda...</p>
+  </div>
+
+  <!-- Chat per le risposte -->
+  <div id="chat-container">
+    <div id="chat-box"></div>
+    <input type="text" id="answer-input" placeholder="Scrivi la tua risposta..." />
     <button id="send-answer">Invia risposta</button>
   </div>
 
-  <!-- Mostra la chat delle risposte -->
-  <div id="chat-box"></div>
+  <!-- Pulsante per passare alla domanda successiva -->
+  <button id="next-button" style="display:none;">Prossima domanda</button>
 
-  <!-- Bottone per passare alla domanda successiva -->
-  <button id="next-button" style="display: none;" onclick="showNextQuestion()">Prosegui alla prossima domanda</button>
-
+  <footer>
+    <p>© 2025 Gioco delle Domande</p>
+  </footer>
 </body>
 </html>
