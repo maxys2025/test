@@ -26,3 +26,28 @@ db.collection('test').add({
 .catch((error) => {
   console.error('Errore durante l\'aggiunta del documento:', error);
 });
+
+// Salva il nome del giocatore
+document.getElementById('login-form').addEventListener('submit', function (event) {
+  event.preventDefault(); // Previene il comportamento predefinito del form
+
+  const playerName = document.getElementById('player-name').value.trim();
+
+  if (playerName) {
+    // Aggiungi il nome al database
+    db.collection('players').add({
+      name: playerName,
+      joinedAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
+      .then(() => {
+        alert(`Benvenuto, ${playerName}! Aspettiamo un altro giocatore...`);
+        window.location.href = 'game.html'; // Reindirizza al gioco
+      })
+      .catch((error) => {
+        console.error('Errore durante il salvataggio del nome:', error);
+        alert('C\'è stato un problema. Riprova!');
+      });
+  } else {
+    alert('Per favore, inserisci un nome!');
+  }
+});
