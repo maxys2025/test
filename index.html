@@ -3,22 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gioco Online</title>
+  <title>Gioco Online - Accesso</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="login-container">
-    <h1>Benvenuto al gioco!</h1>
-    <form id="login-form">
-      <label for="player1">Nome Giocatore 1:</label>
-      <input type="text" id="player1" name="player1" required>
-      <br>
-      <label for="player2">Nome Giocatore 2:</label>
-      <input type="text" id="player2" name="player2" required>
-      <br>
-      <button type="submit">Inizia</button>
-    </form>
-  </div>
+  <h1>Benvenuto al Gioco Online</h1>
+  <form id="login-form">
+    <label for="player-name">Inserisci il tuo nome:</label>
+    <input type="text" id="player-name" placeholder="Il tuo nome" required>
+    <button type="submit">Entra</button>
+  </form>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
