@@ -3,34 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gioco Online - Domande</title>
+  <title>Gioco delle Domande</title>
+  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
+  <script src="game.js" defer></script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Benvenuti al Gioco di Domande!</h1>
 
-  <div id="players-status">
-    <p id="player1-status">In attesa del secondo giocatore...</p>
-    <p id="player2-status">In attesa...</p>
+  <h1>Gioco delle Domande</h1>
+
+  <!-- Visualizza il nome dei giocatori -->
+  <p id="player1-status"></p>
+  <p id="player2-status"></p>
+
+  <!-- Mostra la domanda e la categoria -->
+  <div id="question-container">
+    <p id="question-text"></p>
+    <p id="category-text"></p>  <!-- Mostra la categoria -->
+    <input type="text" id="answer-input" placeholder="Scrivi la tua risposta...">
+    <button id="send-answer">Invia risposta</button>
   </div>
 
-  <div id="game">
-    <div id="question">
-      <p>Domanda: <span id="question-text"></span></p>
-    </div>
+  <!-- Mostra la chat delle risposte -->
+  <div id="chat-box"></div>
 
-    <div id="chat">
-      <h2>Chat</h2>
-      <div id="chat-box"></div>
-      <input type="text" id="answer-input" placeholder="Scrivi la tua risposta..." />
-      <button id="send-answer">Invia Risposta</button>
-    </div>
+  <!-- Bottone per passare alla domanda successiva -->
+  <button id="next-button" style="display: none;" onclick="showNextQuestion()">Prosegui alla prossima domanda</button>
 
-    <button id="next-button" style="display:none;">Prosegui alla prossima domanda</button>
-  </div>
-
-  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"></script>
-  <script type="module" src="game.js"></script>
 </body>
 </html>
