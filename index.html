@@ -1,20 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gioco Online - Accesso</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Gioco delle Domande</title>
+  <style>
+    /* CSS per il layout */
+    body {
+      font-family: Arial, sans-serif;
+    }
+    #login-screen {
+      display: block;
+    }
+  </style>
 </head>
 <body>
-  <h1>Benvenuto al Gioco Online</h1>
-  <form id="login-form">
-    <label for="player-name">Inserisci il tuo nome:</label>
-    <input type="text" id="player-name" placeholder="Il tuo nome" required>
-    <button type="submit">Entra</button>
-  </form>
-<script type="module" src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
-<script type="module" src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"></script>
-<script type="module" src="script.js"></script>
+  <div id="login-screen">
+    <h1>Benvenuto nel Gioco delle Domande</h1>
+    <input type="text" id="player-name" placeholder="Inserisci il tuo nome" required>
+    <input type="password" id="room-password" placeholder="Inserisci la password della stanza" required>
+    <button id="join-room">Entra nella stanza</button>
+  </div>
+
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
+  <script type="module" src="login.js"></script>
 </body>
 </html>
