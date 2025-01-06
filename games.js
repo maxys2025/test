@@ -1,6 +1,6 @@
 // Importa i moduli di Firebase
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js';
-import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js';
+import { getFirestore, collection, addDoc, updateDoc, arrayUnion, getDocs, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js';
 
 // Configurazione Firebase
 const firebaseConfig = {
@@ -13,8 +13,10 @@ const firebaseConfig = {
 };
 
 // Inizializza Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+
+// Inizializza Firestore
+const db = getFirestore(app);
 
 let questions = [];
 let currentQuestionIndex = 0;
@@ -87,11 +89,14 @@ document.getElementById("send-answer").addEventListener("click", async () => {
     document.getElementById("answer-input").value = ""; // Reset dell'input
 
     // Aggiungi la risposta nel database
-    const playerDoc = await getDocs(collection(db, "players"));
-    playerDoc.forEach(async (doc) => {
-      await updateDoc(doc.ref, {
-        answers: arrayUnion(answer)
-      });
+    const playersSnapshot = await getDocs(collection(db, "players"));
+    playersSnapshot.forEach(async (doc) => {
+      if (doc.data().name === playerName) {
+        await updateDoc(doc.ref, {
+          answers: arrayUnion(answer),
+          lastAnswered: serverTimestamp()  // Aggiunge il timestamp quando il giocatore risponde
+        });
+      }
     });
 
     // Verifica se entrambi i giocatori hanno risposto
